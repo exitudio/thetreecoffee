@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Tree Coffee - นนทบุรี</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown-dark:   #2c1a0e;
+      --brown-mid:    #5c3d2e;
+      --brown-warm:   #8b5e3c;
+      --cream:        #f5efe6;
+      --cream-dark:   #ede0cc;
+      --green:        #4a6741;
+      --green-light:  #7a9e6e;
+      --text-dark:    #1e1208;
+      --text-mid:     #4b3120;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(44, 26, 14, 0.92);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      letter-spacing: 1px;
+    }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--cream-dark);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .lang-toggle {
+      display: flex; gap: 6px;
+    }
+    .lang-btn {
+      border: 1px solid rgba(255,255,255,0.35);
+      background: transparent;
+      color: var(--cream-dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: 'Sarabun', sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--brown-warm);
+      color: #fff;
+      border-color: var(--brown-warm);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(44,26,14,0.65) 0%, rgba(44,26,14,0.3) 60%, rgba(44,26,14,0.7) 100%),
+        url('https://img.wongnai.com/p/800x0/2020/03/26/0e251516128d41fcac20be98b3cd6f81.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.85);
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--brown-warm);
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--brown-mid); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 36px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.6); font-size: 0.8rem;
+    }
+    .scroll-hint::after {
+      content: '↓';
+      font-size: 1.2rem;
+      animation: bounce 1.6s infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brown-warm);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--brown-dark);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 600px;
+      line-height: 1.9;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: #fff; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .about-img {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      box-shadow: 0 24px 64px rgba(44,26,14,0.18);
+    }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+    .feature-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .feature-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--cream);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .feature-item p { font-size: 0.95rem; color: var(--text-mid); }
+
+    /* ── MENU ── */
+    #menu { background: var(--cream); }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .menu-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(44,26,14,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(44,26,14,0.14); }
+    .menu-card-img {
+      height: 200px; overflow: hidden;
+    }
+    .menu-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .menu-card-body { padding: 20px; }
+    .menu-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--brown-dark);
+      margin-bottom: 6px;
+    }
+    .menu-card-desc { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 12px; }
+    .menu-card-price {
+      font-weight: 600;
+      color: var(--brown-warm);
+      font-size: 1rem;
+    }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--brown-dark); padding: 96px 24px; }
+    #gallery .section-label { color: var(--cream-dark); }
+    #gallery .section-title { color: #fff; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 240px 240px;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .gallery-item:first-child {
+      grid-row: span 2;
+    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.06); }
+
+    /* ── INFO ── */
+    #info { background: var(--cream-dark); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(44,26,14,0.07);
+    }
+    .info-card-icon { font-size: 2rem; margin-bottom: 14px; }
+    .info-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--brown-dark);
+      margin-bottom: 10px;
+    }
+    .info-card p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.8; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 0.9rem; }
+    .hours-row.closed { color: #c0392b; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--brown-dark);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--cream-dark); text-decoration: none; }
+    footer a:hover { color: #fff; }
+    .footer-social { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
+    .social-link {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .social-link:hover { background: var(--brown-warm); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img { aspect-ratio: 16/9; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item:first-child { grid-row: span 1; }
+    }
+
+    /* ── I18N HIDE ── */
+    [data-th], [data-en] {}
+    .lang-th [data-en] { display: none !important; }
+    .lang-en [data-th] { display: none !important; }
+  </style>
+</head>
+<body class="lang-th">
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">The Tree Coffee</span>
+  <ul class="nav-links">
+    <li><a href="#about" data-th>เกี่ยวกับเรา</a><a href="#about" data-en>About</a></li>
+    <li><a href="#menu" data-th>เมนู</a><a href="#menu" data-en>Menu</a></li>
+    <li><a href="#gallery" data-th>แกลเลอรี</a><a href="#gallery" data-en>Gallery</a></li>
+    <li><a href="#info" data-th>ข้อมูลร้าน</a><a href="#info" data-en>Visit Us</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-th" onclick="setLang('th')">ไทย</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-badge" data-th>ถนนสามัคคี 60 · นนทบุรี</span>
+  <span class="hero-badge" data-en>Sammakkee Rd 60 · Nonthaburi</span>
+
+  <h1 class="hero-title">The Tree<br>Coffee</h1>
+
+  <p class="hero-subtitle" data-th>สัมผัสความอบอุ่นของกาแฟดีๆ ท่ามกลางร่มเงาของต้นไม้ใหญ่</p>
+  <p class="hero-subtitle" data-en>Experience the warmth of great coffee in the shade of a majestic tree</p>
+
+  <a href="#menu" class="btn-primary" data-th>ดูเมนูของเรา</a>
+  <a href="#menu" class="btn-primary" data-en>Explore Our Menu</a>
+
+  <div class="scroll-hint" data-th>เลื่อนลง</div>
+  <div class="scroll-hint" data-en>Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">
+        <img src="https://img.wongnai.com/p/800x0/2020/08/03/39104d10a1e64e9dbfcac83b0c4a3ddc.jpg" alt="The Tree Coffee interior" />
+      </div>
+      <div>
+        <span class="section-label" data-th>เรื่องราวของเรา</span>
+        <span class="section-label" data-en>Our Story</span>
+
+        <h2 class="section-title" data-th>ร้านกาแฟใต้ร่มเงา<br>ต้นไม้ใหญ่</h2>
+        <h2 class="section-title" data-en>A Café Beneath<br>A Great Tree</h2>
+
+        <p class="section-body" data-th>
+          The Tree Coffee เกิดจากความรักในกาแฟและธรรมชาติ เราตั้งใจสร้างพื้นที่อบอุ่น
+          ที่ทุกคนสามารถมานั่งพักผ่อน จิบกาแฟ และรับพลังงานดีๆ ในทุกวัน
+          ร้านของเรามีต้นไม้ใหญ่เป็นจุดเด่น พร้อมบรรยากาศที่ทำให้รู้สึกเหมือนนั่งอยู่ในสวน
+        </p>
+        <p class="section-body" data-en>
+          The Tree Coffee was born from a love of coffee and nature. We created a warm space
+          where everyone can relax, sip great coffee, and recharge each day.
+          Our shop is defined by a magnificent tree at its heart, giving you the feeling of sitting in a garden.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">☕</div>
+            <p data-th>กาแฟคั่วสดคุณภาพสูง กลิ่นหอม รสชาติเข้มข้น</p>
+            <p data-en>Freshly roasted specialty coffee — aromatic and rich</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🐱</div>
+            <p data-th>พบกับน้องมาเรียม แมวประจำร้านผู้น่ารัก</p>
+            <p data-en>Meet Mariam, our adorable resident café cat</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌿</div>
+            <p data-th>บรรยากาศร่มรื่น มีที่จอดรถสะดวก</p>
+            <p data-en>Lush, relaxing atmosphere with convenient parking</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💻</div>
+            <p data-th>เหมาะสำหรับนั่งทำงาน อ่านหนังสือ หรือพบปะเพื่อนฝูง</p>
+            <p data-en>Perfect for working, reading, or catching up with friends</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <span class="section-label" data-th>รายการอาหารและเครื่องดื่ม</span>
+    <span class="section-label" data-en>Food & Drinks</span>
+
+    <h2 class="section-title" data-th>เมนูแนะนำ</h2>
+    <h2 class="section-title" data-en>Our Signature Menu</h2>
+
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/800x0/2023/08/29/0b40399a2b1e464fb1a58381bae22257.jpg" alt="Cold Cappuccino" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name">Cold Cappuccino</p>
+          <p class="menu-card-desc" data-th>คาปูชิโนเย็น หอมมัน กลมกล่อม เข้มข้นในทุกอึก</p>
+          <p class="menu-card-desc" data-en>Creamy iced cappuccino — smooth, rich, and perfectly balanced</p>
+          <p class="menu-card-price">65 ฿</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/400x0/2023/03/18/7bfa00ef4df24821ac81e7d6126ff9f6.jpg" alt="Americano" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name">Americano</p>
+          <p class="menu-card-desc" data-th>อเมริกาโน่รสชาติสะอาด กลิ่นหอม เหมาะสำหรับคอกาแฟแท้</p>
+          <p class="menu-card-desc" data-en>Clean and aromatic Americano — the purist's choice</p>
+          <p class="menu-card-price">65 ฿</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/400x0/2023/03/18/5f89cd1c048d4d10927cc05a15360943.jpg" alt="Hinode Espresso Yuzu Soda" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name">Hinode Espresso Yuzu Soda</p>
+          <p class="menu-card-desc" data-th>เอสเปรสโซผสมน้ำผึ้งยูซุ กับโซดาดำ รสแปลกใหม่น่าลอง</p>
+          <p class="menu-card-desc" data-en>Espresso with yuzu honey and black soda — a bold, unique signature</p>
+          <p class="menu-card-price">70 ฿</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/800x0/2024/10/08/89136175448f4825be79db8528fb84e5.jpg" alt="Latte" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name">Latte</p>
+          <p class="menu-card-desc" data-th>ลาเต้นุ่มลิ้น นมสดเนื้อเนียน ผสมกับเอสเปรสโซ่กลมกล่อม</p>
+          <p class="menu-card-desc" data-en>Velvety latte with silky steamed milk and smooth espresso</p>
+          <p class="menu-card-price">65 ฿</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/800x0/2020/03/28/cdcf2af46fc94c439cfb7fc7455e36e6.jpg" alt="Matcha Latte" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name">Matcha Latte</p>
+          <p class="menu-card-desc" data-th>มัทฉะลาเต้จากชาเขียวเกรดพรีเมียม รสละมุน ไม่ขม</p>
+          <p class="menu-card-desc" data-en>Premium matcha latte — subtle, earthy, and never bitter</p>
+          <p class="menu-card-price">70 ฿</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="https://img.wongnai.com/p/800x0/2020/04/09/02339c39029e47c699fbfee2be0f2593.jpg" alt="House Blend Filter" />
+        </div>
+        <div class="menu-card-body">
+          <p class="menu-card-name" data-th>House Blend Filter</p>
+          <p class="menu-card-name" data-en>House Blend Filter</p>
+          <p class="menu-card-desc" data-th>กาแฟดริปสูตรพิเศษของร้าน กลิ่นหอมเต็มถ้วย</p>
+          <p class="menu-card-desc" data-en>Our special drip blend — aromatic and full-flavored cup</p>
+          <p class="menu-card-price">60 ฿</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <span class="section-label" data-th>บรรยากาศร้าน</span>
+    <span class="section-label" data-en>Atmosphere</span>
+
+    <h2 class="section-title" data-th>แกลเลอรี</h2>
+    <h2 class="section-title" data-en>Gallery</h2>
+
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80" alt="Café interior" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80" alt="Coffee art" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&q=80" alt="Café garden" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&q=80" alt="Barista" />
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?w=800&q=80" alt="Coffee beans" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div class="container">
+    <span class="section-label" data-th>มาหาเรา</span>
+    <span class="section-label" data-en>Find Us</span>
+
+    <h2 class="section-title" data-th>ข้อมูลร้าน</h2>
+    <h2 class="section-title" data-en>Visit Us</h2>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="info-card-icon">📍</div>
+        <h3 data-th>ที่ตั้ง</h3>
+        <h3 data-en>Location</h3>
+        <p data-th>ถนนสามัคคี 60<br>นนทบุรี<br>(ใกล้โรงเรียนประชาอุปถัมภ์)</p>
+        <p data-en>Sammakkee Road 60<br>Nonthaburi<br>(Near Prachauptamph School)</p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">🕘</div>
+        <h3 data-th>เวลาเปิด-ปิด</h3>
+        <h3 data-en>Opening Hours</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+          <div class="hours-row">
+            <span data-th>จันทร์ – อังคาร</span><span data-en>Mon – Tue</span>
+            <span>09:00 – 17:00</span>
+          </div>
+          <div class="hours-row closed">
+            <span data-th>พุธ</span><span data-en>Wednesday</span>
+            <span data-th>หยุด</span><span data-en>Closed</span>
+          </div>
+          <div class="hours-row">
+            <span data-th>พฤหัส – อาทิตย์</span><span data-en>Thu – Sun</span>
+            <span>09:00 – 17:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">📱</div>
+        <h3 data-th>ติดต่อเรา</h3>
+        <h3 data-en>Contact</h3>
+        <p>
+          <a href="https://www.facebook.com/TheTreeCoff" target="_blank">Facebook: TheTreeCoff</a><br>
+          <a href="https://www.instagram.com/thetreecoff" target="_blank">Instagram: @thetreecoff</a>
+        </p>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">🚗</div>
+        <h3 data-th>การเดินทาง</h3>
+        <h3 data-en>Getting Here</h3>
+        <p data-th>มีที่จอดรถบริเวณหน้าร้าน สะดวกสำหรับผู้ที่เดินทางด้วยรถยนต์ส่วนตัว</p>
+        <p data-en>Parking available in front of the shop — easy access by car.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/TheTreeCoff" target="_blank" class="social-link">f</a>
+    <a href="https://www.instagram.com/thetreecoff" target="_blank" class="social-link">ig</a>
+  </div>
+  <p data-th>© 2025 The Tree Coffee · ถนนสามัคคี 60 นนทบุรี</p>
+  <p data-en>© 2025 The Tree Coffee · Sammakkee Rd 60, Nonthaburi</p>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.getElementById('btn-th').classList.toggle('active', lang === 'th');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang === 'th' ? 'th' : 'en';
+  }
+</script>
+
+</body>
+</html>
